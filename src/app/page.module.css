@@ -1,0 +1,82 @@
+.title {
+
+}
+
+.board {
+	position: relative;
+	width: 880px;
+	aspect-ratio: 1/1;
+}
+
+.board .row {
+	position: absolute;
+
+	display: flex;
+	flex-direction: row;
+	transform-origin: top left;
+}
+
+.board .row.top {
+	top: 0;
+	left: 0;
+}
+
+.board .row.right {
+	top: 0;
+	left: 880px;
+	transform: rotate(90deg);
+}
+
+.board .row.bottom {
+	bottom: -80px;
+	left: 880px;
+	transform: rotate(180deg);
+}
+
+.board .row.left {
+	bottom: -80px;
+	left: 0;
+	transform: rotate(-90deg);
+}
+
+.board .character{
+	position: absolute;
+
+	width: 30px;
+	height: 30px;
+	background-color: silver;
+	border: 2px solid darkgray;
+	border-radius: 50%;
+
+	transform-origin: center;
+
+	box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
+
+	transition: 0.15s;
+}
+
+.board .display{
+	position: absolute;
+	top: 80px;
+	left: 80px;
+	width: 720px;
+	height: 720px;
+}
+.board .display .roll_btn{
+	background-color: red;
+	color: white;
+	border-radius: 10px;
+	padding: 0.5em 1em;
+	width: fit-content;
+
+	user-select: none;
+	cursor: pointer;
+
+	transition: 0.1s;
+}
+.board .display .roll_btn.disabled{
+	cursor: not-allowed;
+}
+.board .display .roll_btn:hover{
+	background-color: maroon;
+}
