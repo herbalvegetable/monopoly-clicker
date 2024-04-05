@@ -16,6 +16,7 @@ press "Roll" button to roll dice (1 - 6)
 
 
 --- Gameplay ---
-- chance to spawn bots to roam around the board
+- chance to spawn bots to roam around the board OR spawn bot every 20 roll count
 - if they land on your property, you get MONEYYY
 - ^^^^^^^VERY IMPORTANT MUST IMPLEMENT FOR ULTIMATE FUN
+- option to autoroll, autobuy property, 

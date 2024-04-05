@@ -63,10 +63,14 @@ export default function Home() {
 	// Character info (e.g. position)
 	const characterRef = useRef(null);
 	const [characterPos, setCharacterPos] = useState([0, 0]); // row index, row square index
-
 	const [rollCount, setRollCount] = useState(0);
-
 	const [canRoll, setCanRoll] = useState(true);
+	const [characterInfo, setCharacterInfo] = useState({
+		money: 200,
+	});
+
+	// Game state
+	const [curSquare, setCurSquare] = useState(null);
 
 	// FUNCTIONS
 
@@ -153,9 +157,8 @@ export default function Home() {
 
 	function executeSquareOutcome(endPos){
 		let square = getSquareFromPos(endPos);
-		console.log(square.type);
-
-		
+		console.log(square);
+		setCurSquare(square);
 	}
 
 	useEffect(() => {
@@ -194,6 +197,28 @@ export default function Home() {
 						onClick={handleRoll}>
 							ROLL!
 					</div>
+					<div className={styles.char_money}>{characterInfo.money}M</div>
+					{
+						curSquare?.type === 'go' ?
+
+						<div>Collect 200M</div>
+
+						: curSquare?.type === 'property' ?
+
+						<div>Buy property?</div>
+
+						: curSquare?.type === 'chance' ?
+
+						<div>Take chance card</div>
+
+						: curSquare?.type === 'tax' ?
+
+						<div>Pay tax</div>
+
+						:
+
+						null
+					}
 				</div>
 			</div>
 		</>
