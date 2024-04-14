@@ -63,14 +63,21 @@ export default function Home() {
 	// Character info (e.g. position)
 	const characterRef = useRef(null);
 	const [characterPos, setCharacterPos] = useState([0, 0]); // row index, row square index
-	const [rollCount, setRollCount] = useState(0);
 	const [canRoll, setCanRoll] = useState(true);
-	const [characterInfo, setCharacterInfo] = useState({
-		money: 200,
+	const [character, setCharacter] = useState({
+		money: 1000,
 	});
+	const updateCharacterProps = props => {
+		let newCharacter = {...character};
+		for(var prop in props){
+			newCharacter[prop] = props[prop];
+		}
+		setCharacter(newCharacter);
+	}
 
 	// Game state
 	const [curSquare, setCurSquare] = useState(null);
+	const [rolls, setRolls] = useState([0]);
 
 	// FUNCTIONS
 
@@ -81,7 +88,7 @@ export default function Home() {
 		let roll = Math.floor(Math.random() * 6) + 1;
 		// let roll = 2; // DEBUG
 		console.log(`User rolled a ${roll}`);
-		setRollCount(roll);
+		setRolls([roll]);
 
 		let endPos = getNewSquarePos([...characterPos], roll);
 		setCharacterPos(endPos);
@@ -146,6 +153,11 @@ export default function Home() {
 			setTimeout(() => {
 				newPos = getNewSquarePos([...newPos], 1);
 				updateCharacterPos(...getCoordsFromPos(newPos));
+
+				if(getSquareFromPos(newPos).type == 'go'){
+					updateCharacterProps({money: character.money + 200});
+				}
+
 				if(i >= roll-1) {
 					setCanRoll(true);
 					executeSquareOutcome(endPos);
@@ -159,6 +171,21 @@ export default function Home() {
 		let square = getSquareFromPos(endPos);
 		console.log(square);
 		setCurSquare(square);
+
+		switch(square.type){
+			case 'go':
+				// dont update char money; already updated in displayCharacterMovement
+				break;
+			case 'property':
+
+				break;
+			case 'chance':
+
+				break;
+			case 'tax':
+
+				break;
+		}
 	}
 
 	useEffect(() => {
@@ -191,13 +218,24 @@ export default function Home() {
 				<div className={styles.character} ref={characterRef}></div>
 
 				<div className={styles.display}>
-					<div>You rolled a {rollCount}!</div>
+
+					{/* Dice roll */}
+					<div className={styles.dice_container}>
+						{
+							rolls.map((roll, i) => {
+								return <div key={i.toString()} className={styles.die}>
+									{roll}
+								</div>
+							})
+						}
+					</div>
+					
 					<div 
 						className={`${styles.roll_btn} ${canRoll ? '' : styles.disabled}`} 
 						onClick={handleRoll}>
 							ROLL!
 					</div>
-					<div className={styles.char_money}>{characterInfo.money}M</div>
+					<div className={styles.char_money}>{character.money}M</div>
 					{
 						curSquare?.type === 'go' ?
 
